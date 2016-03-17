@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choo Choo</title>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+  <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
+
+</head>
+<body>
+
+<div class ="container">
+   <div class="jumbotron" style ="background-color:#1E2F57;">
+      <h1 class ="text-center" style="color:white;">Anytime Time is Train Time</h1>
+      <h3 class ="text-center" style="color:white;">All Aboard!!</h3>
+  
+  
+   </div>
+   <div class="panel panel-default" >
+       <div class="panel-heading" style ="background-color:#1E2F57;">
+          <h3 class="panel-title" style ="color:white;">Current Train Schedule</h3>
+       </div>
+  <div class="panel-body">
+       <table class="table table-striped" id ="trainTable">
+    <thead>
+      <tr id="full-member-list" >
+        <th>Train Name</th>
+        <th>Destination</th>
+        <th>Frequency (min)</th>
+        <th>Next Arrival</th>
+        <th>Minutes Away</th>
+      </tr>
+    </thead>
+    <tbody id="trainTable">
+    
+    
+     <!-- <tr>
+        <td id="employeeNameDisplay">John</td>
+        <td id="roleDisplay">Doe</td>
+        <td id="startDateDisplay">john@example.com</td>
+        <td id="monthlyRateDisplay">John</td>
+        <td id="monthsWorkedDisplay">n/a</td>
+        <td id="totalBilledDisplay">n/a</td>
+      </tr>
+      <tr>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+      </tr>
+      <tr>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+        <td>n/a</td>
+      </tr>-->
+    </tbody>
+  </table>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading" style ="background-color:#1E2F57;">
+    <h3 class="panel-title" style ="color:white;">Add Train</h3>
+  </div>
+  <div class="panel-body">
+    <form role="form">
+  <div class="form-group">
+    <label for="email">Train Name</label>
+    <input type="text" class="form-control" id="trainName">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Destination</label>
+    <input type="text" class="form-control" id="destination">
+  </div>
+  <div class="form-group">
+    <label for="pwd">First Train Time(HH:mm - military time)</label>
+    <input type="text" class="form-control" id="firstTrainTime">
+  </div>
+  <div class="form-group">
+    <label for="pwd">Frequency(min)</label>
+    <input type="text" class="form-control" id="frequency">
+  </div>
+  
+  <button type="submit" class="btn btn-default" style ="background-color:#1E2F57;color:white;" id="addUser">Submit</button>
+</form>
+
+
+</div>
+    
+  </div>
+</div>
+</div>
+
+<!-- Latest compiled and minified CSS & JS -->
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<script>
+
+// ========================================== START CODING BELOW!!
+
+var dataRef = new Firebase("https://ragtrain.firebaseio.com/");
+
+var trainName = "";
+var destination = "";
+var firstTrainTime = "";
+var frequency = "";
+
+
+
+
+// Capture Button Click
+$("#addUser").on("click", function() {
+
+  // YOUR TASK!!!
+  // Code in the logic for storing and retrieving the most recent user. 
+  // Dont forget to handle the "initial load"
+
+    trainName = $('#trainName').val().trim();
+    destination = $('#destination').val().trim();
+    firstTrainTime = $('#firstTrainTime').val().trim();
+    frequency = $('#frequency').val().trim();
+    
+    
+
+    dataRef.push({
+
+      trainName: trainName,
+      destination: destination,
+      firstTrainTime: firstTrainTime,
+      frequency: frequency
+
+    })
+
+  // Don't refresh the page!
+  return false;
+});
+
+dataRef.on("child_added", function(childSnapshot){
+
+  console.log(childSnapshot.val());
+  console.log(childSnapshot.val().trainName);
+  console.log(childSnapshot.val().destination)
+  console.log(childSnapshot.val().firstTrainTime);
+  console.log(childSnapshot.val().frequency);
+
+
+
+  $("#trainTable > tbody").append("<tr><td>" + childSnapshot.val().trainName + "</td><td>" + childSnapshot.val().destination + "</td><td>" + childSnapshot.val().frequency + "</td></tr>");
+
+// Create Firebase "watcher" (.on("value"))
+
+}, function(errorObject){
+
+  console.log("Errors handled: " + errorObject.code)
+}) 
+
+// Create Error Handling
+$("#addUser").val("");
+
+//I didn't get how to do the time exercises as related to this project. Also ran out of time.
+
+</script>
+
+</body>
+</html>
+
+
+
+
+</body>
+</html>
